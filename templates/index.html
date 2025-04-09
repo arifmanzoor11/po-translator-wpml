@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .upload-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .language-select {
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 25px;
+            margin: 20px 0;
+        }
+        .drag-area {
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        .drag-area.active {
+            border-color: #2196f3;
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container upload-container">
+        <h2 class="mb-4 text-center">PO File Translator</h2>
+        
+        <div class="language-select">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="sourceLang" class="form-label">Source Language:</label>
+                    <select class="form-select" id="sourceLang">
+                        <option value="auto">Auto Detect</option>
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="nl">Dutch</option>
+                        <option value="ru">Russian</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                        <option value="tr">Turkish</option>
+                        <option value="pl">Polish</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="th">Thai</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="targetLang" class="form-label">Target Language:</label>
+                    <select class="form-select" id="targetLang">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="es">Spanish</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="nl">Dutch</option>
+                        <option value="ru">Russian</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                        <option value="tr">Turkish</option>
+                        <option value="pl">Polish</option>
+                        <option value="vi">Vietnamese</option>
+                        <option value="th">Thai</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="drag-area" id="dropZone">
+            <p>Drag & Drop your PO file here or</p>
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                Choose File
+            </button>
+            <input type="file" id="fileInput" accept=".po" style="display: none">
+        </div>
+
+        <button id="translateBtn" class="btn btn-success w-100 mb-3 d-none">
+            Translate Now
+        </button>
+
+        <div id="translationStatus" class="alert alert-info d-none">
+            <div class="d-flex align-items-center">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="d-flex flex-column">
+                    <span id="currentTranslation">Translating: </span>
+                    <small id="translatedText" class="text-muted"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress d-none" id="progressContainer">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                 role="progressbar" 
+                 id="progressBar">
+            </div>
+        </div>
+
+        <div id="status" class="alert d-none"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const status = document.getElementById('status');
+        const translateBtn = document.getElementById('translateBtn');
+        const translationStatus = document.getElementById('translationStatus');
+        const currentTranslation = document.getElementById('currentTranslation');
+        let selectedFile = null;
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('active');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('active');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            const file = e.dataTransfer.files[0];
+            if (file && file.name.endsWith('.po')) {
+                handleFile(file);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            translateBtn.classList.remove('d-none');
+            status.classList.add('d-none');
+        }
+
+        translateBtn.addEventListener('click', () => {
+            if (!selectedFile) return;
+            
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('source_lang', document.getElementById('sourceLang').value);
+            formData.append('target_lang', document.getElementById('targetLang').value);
+
+            progressContainer.classList.remove('d-none');
+            translationStatus.classList.remove('d-none');
+            translateBtn.disabled = true;
+            status.classList.add('d-none');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
+
+            // Set up SSE for translation progress
+            const eventSource = new EventSource('/translation-progress');
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                currentTranslation.textContent = `Translating: ${data.current_string}`;
+                document.getElementById('translatedText').textContent = `Translated: ${data.translated_text || ''}`;
+                progressBar.style.width = data.progress + '%';
+                progressBar.setAttribute('aria-valuenow', data.progress);
+            };
+
+            xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable) {
+                    const percentComplete = (e.loaded / e.total) * 100;
+                    progressBar.style.width = percentComplete + '%';
+                    progressBar.setAttribute('aria-valuenow', percentComplete);
+                }
+            };
+
+            xhr.onload = function() {
+                eventSource.close();
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    status.textContent = 'Translation completed successfully!';
+                    status.classList.remove('d-none', 'alert-danger');
+                    status.classList.add('alert-success');
+                    
+                    window.location.href = response.download_url;
+                } else {
+                    status.textContent = 'Error during translation. Please try again.';
+                    status.classList.remove('d-none', 'alert-success');
+                    status.classList.add('alert-danger');
+                }
+                progressContainer.classList.add('d-none');
+                translationStatus.classList.add('d-none');
+                translateBtn.disabled = false;
+                translateBtn.classList.add('d-none');
+                selectedFile = null;
+            };
+
+            xhr.onerror = function() {
+                eventSource.close();
+                status.textContent = 'Network error occurred. Please try again.';
+                status.classList.remove('d-none', 'alert-success');
+                status.classList.add('alert-danger');
+                progressContainer.classList.add('d-none');
+                translationStatus.classList.add('d-none');
+                translateBtn.disabled = false;
+                translateBtn.classList.add('d-none');
+                selectedFile = null;
+            };
+
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
