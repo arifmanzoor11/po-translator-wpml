@@ -1,0 +1,4 @@
+Flask>=2.0,<3.0
+Werkzeug>=2.0,<3.0
+polib>=1.1.0
+deep-translator>=1.11.4

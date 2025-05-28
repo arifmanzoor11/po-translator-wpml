@@ -32,6 +32,7 @@ def index():
 
 @app.route('/translation-progress')
 
+
 @app.route("/documentation")
 def documentation():
     return render_template("documentation.html")

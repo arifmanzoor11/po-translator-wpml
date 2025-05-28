@@ -1,0 +1,49 @@
+name: Deploy Wpml String Translator App to cPanel via FTP
+
+on:
+  push:
+    branches: [main, master]
+
+env:
+  PYTHON_VERSION: '3.11'
+  DEPLOY_PATH: '/wpml-string-translator.waveink.co.uk'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Prepare files for deployment
+        run: |
+          echo "Preparing app for FTP upload.."
+
+          
+      - name: Deploy to cPanel via FTP 
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{secrets.CPANEL_SERVER}}
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          server-dir: ${{ env.DEPLOY_PATH }}/
+          exclude: |
+            **/.git*
+            **/.DS_Store*
+            **/.git*/**
+            **/__pycache__/**
+            **/.env
+            **/venv/**
+            **/*.log
+            **/.github/**
