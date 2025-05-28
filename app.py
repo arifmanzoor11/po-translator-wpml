@@ -31,6 +31,11 @@ def index():
     return render_template('index.html')
 
 @app.route('/translation-progress')
+
+@app.route("/documentation")
+def documentation():
+    return render_template("documentation.html")
+
 def translation_progress():
     def generate():
         while True:

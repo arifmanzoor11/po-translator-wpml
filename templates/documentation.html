@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}PO File Translator - Convert & Translate{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body p-5">
+          <div class=" mb-5">
+  <h1 class="font-bold mb-6">PO File Translator Documentation</h1>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Overview</h2>
+    <p class="mt-2">The PO File Translator is a web-based tool that automatically translates WordPress/Gettext PO (Portable Object) files from one language to another using machine translation.</p>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Features</h2>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>Drag & Drop Interface</strong> - Simply drag your PO file onto the upload area</li>
+      <li><strong>Multiple Languages</strong> - Support for 18+ languages</li>
+      <li><strong>Auto-Detection</strong> - Automatically detect the source language</li>
+      <li><strong>Real-time Progress</strong> - Live translation progress</li>
+      <li><strong>Batch Processing</strong> - Efficiently handles multiple strings</li>
+      <li><strong>Download Ready</strong> - Translated PO file ready to use</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Supported Languages</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Source Languages</h3>
+    <p class="mt-2">Auto Detect (recommended), English, French, Spanish, German, Italian, Portuguese, Dutch, Russian, Chinese, Japanese, Korean, Arabic, Hindi, Turkish, Polish, Vietnamese, Thai</p>
+
+    <h3 class="text-xl mt-4 font-semibold">Target Languages</h3>
+    <p class="mt-2">All languages listed above except Auto Detect</p>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">How to Use</h2>
+    <h3 class="text-xl mt-4 font-semibold">Step 1: Select Languages</h3>
+    <ol class="list-decimal ml-6 mt-2">
+      <li>Choose your <strong>Source Language</strong> (or leave as "Auto Detect")</li>
+      <li>Select your <strong>Target Language</strong></li>
+    </ol>
+
+    <h3 class="text-xl mt-4 font-semibold">Step 2: Upload File</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>Drag & Drop</strong> or use "Choose File"</li>
+      <li><strong>Requirements:</strong> .po file, max 10MB, valid format</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">Step 3: Start Translation</h3>
+    <ol class="list-decimal ml-6 mt-2">
+      <li>Click "Start Translation"</li>
+      <li>Monitor progress</li>
+      <li>Download starts automatically</li>
+    </ol>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">File Format Requirements</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Supported Format</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>Extension:</strong> .po</li>
+      <li><strong>Encoding:</strong> UTF-8 recommended</li>
+      <li><strong>Structure:</strong> Standard Gettext format</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">Example PO File Structure</h3>
+    <pre class="bg-gray-100 p-4 mt-2 rounded"><code>
+#: template.php:123
+msgid "Hello World"
+msgstr ""
+
+#: template.php:456
+msgid "Welcome to our website"
+msgstr ""
+    </code></pre>
+
+    <h3 class="text-xl mt-4 font-semibold">After Translation</h3>
+    <pre class="bg-gray-100 p-4 mt-2 rounded"><code>
+#: template.php:123
+msgid "Hello World"
+msgstr "Bonjour le monde"
+
+#: template.php:456
+msgid "Welcome to our website"
+msgstr "Bienvenue sur notre site web"
+    </code></pre>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Translation Process</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">What Gets Translated</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>msgid</strong> strings</li>
+      <li><strong>Comments</strong> and references</li>
+      <li><strong>Context</strong> formatting preserved</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">What Stays the Same</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>File headers</li>
+      <li>Line numbers</li>
+      <li>Formatting</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Best Practices</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Before Translation</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Backup original PO file</li>
+      <li>Validate format</li>
+      <li>Ensure UTF-8 encoding</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">After Translation</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Review translation output</li>
+      <li>Test in application</li>
+      <li>Generate .mo file</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Troubleshooting</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Common Issues</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>File Upload Failed</strong>: Check extension and size</li>
+      <li><strong>Translation Errors</strong>: Re-check source language and internet</li>
+      <li><strong>Slow Processing</strong>: Large files or server load</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">Error Messages</h3>
+    <table class="table-auto border mt-2">
+      <thead>
+        <tr>
+          <th class="border px-4 py-2">Error</th>
+          <th class="border px-4 py-2">Solution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="border px-4 py-2">Invalid file type</td><td class="border px-4 py-2">Upload only .po files</td></tr>
+        <tr><td class="border px-4 py-2">File too large</td><td class="border px-4 py-2">Max size 10MB</td></tr>
+        <tr><td class="border px-4 py-2">Translation failed</td><td class="border px-4 py-2">Check format</td></tr>
+        <tr><td class="border px-4 py-2">Network error</td><td class="border px-4 py-2">Check internet</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Technical Details</h2>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Uses machine translation API</li>
+      <li>Detects language automatically</li>
+      <li>Batch translation optimization</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">File Processing</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li><strong>Input:</strong> Original PO file</li>
+      <li><strong>Processing:</strong> msgid translated</li>
+      <li><strong>Output:</strong> Translated msgstr values</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">Security</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Secure file handling</li>
+      <li>No data stored</li>
+      <li>SSL encryption</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">API Integration</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Upload Endpoint</h3>
+    <pre class="bg-gray-100 p-4 rounded"><code>
+POST /upload
+Content-Type: multipart/form-data
+
+Parameters:
+- file: PO file
+- source_lang: Source language code
+- target_lang: Target language code
+    </code></pre>
+
+    <h3 class="text-xl mt-4 font-semibold">Progress Tracking</h3>
+    <pre class="bg-gray-100 p-4 rounded"><code>
+GET /translation-progress
+Content-Type: text/event-stream
+
+Returns: Server-sent events with progress updates
+    </code></pre>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">WordPress Integration</h2>
+    <ol class="list-decimal ml-6 mt-2">
+      <li>Upload .po file to <code>/wp-content/languages/</code></li>
+      <li>Generate .mo file using Poedit</li>
+      <li>Activate language in WordPress</li>
+    </ol>
+
+    <h3 class="text-xl mt-4 font-semibold">File Naming Convention</h3>
+    <pre class="bg-gray-100 p-4 rounded"><code>
+textdomain-locale.po
+textdomain-locale.mo
+
+Examples:
+- twentytwentythree-fr_FR.po
+- woocommerce-es_ES.po
+    </code></pre>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Support</h2>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Check documentation first</li>
+      <li>Verify file format</li>
+      <li>Try smaller files for testing</li>
+    </ul>
+  </section>
+
+  <section class="mb-8">
+    <h2 class="text-2xl font-semibold">Updates & Improvements</h2>
+
+    <h3 class="text-xl mt-4 font-semibold">Recent Updates</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Improved drag & drop</li>
+      <li>Live translation progress</li>
+      <li>Better error handling</li>
+      <li>Enhanced validation</li>
+    </ul>
+
+    <h3 class="text-xl mt-4 font-semibold">Planned Features</h3>
+    <ul class="list-disc ml-6 mt-2">
+      <li>Translation memory</li>
+      <li>Custom terminology</li>
+      <li>Batch file processing</li>
+      <li>Translation scoring</li>
+    </ul>
+  </section>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
